@@ -3,6 +3,8 @@ import React from 'react'
 class WeatherForm extends React.Component {
     constructor(props, context) {
         super(props, context)
+
+        this.onFormSubmit = this.onFormSubmit.bind(this)
     }
     onFormSubmit(e) {
         e.preventDefault()
@@ -19,7 +21,7 @@ class WeatherForm extends React.Component {
             <div>
                 <form onSubmit={this.onFormSubmit}>
                     <input type="text" ref="location" />
-                    <button>Get Weather</button>
+                    <button className="button expanded hollow">Get Weather</button>
                 </form>
             </div>
         )
