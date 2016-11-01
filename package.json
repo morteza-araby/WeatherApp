@@ -7,7 +7,8 @@
   "scripts": {
     "prestart": "webpack",
     "build": "webpack",
-    "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --progress --colors --host 0.0.0.0 --port 4080",
+    "start": "node server.js",
+    "serve": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --progress --colors --host 0.0.0.0 --port 4080",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "test:watch": "npm run test -- --watch"
   },
@@ -40,6 +41,7 @@
   },
   "dependencies": {
     "axios": "^0.15.2",
+    "express": "^4.14.0",
     "foundation-sites": "^6.2.4",
     "lodash": "^3.10.1",
     "react": "^0.14.3",
