@@ -4,7 +4,7 @@
   "description": "Example Weather app uses Zurb Foundation and React",
   "main": "index.js",
   "repository": "",
-  "scripts": {
+  "scripts": {    
     "build": "webpack",
     "start": "node server.js",
     "serve": "webpack && node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --progress --colors --host 0.0.0.0 --port 4080",

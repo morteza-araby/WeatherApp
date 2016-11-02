@@ -126,7 +126,8 @@
 	// Load foundation
 	
 	//import App from './components/app'
-	__webpack_require__(309);
+	__webpack_require__(310);
+	__webpack_require__(314);
 	$(document).foundation();
 	
 	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxPromise2.default)(_redux.createStore);
@@ -28402,7 +28403,7 @@
 	                            _react2.default.createElement(
 	                                'li',
 	                                null,
-	                                _react2.default.createElement('input', { type: 'search', placeholder: 'Search Weather' })
+	                                _react2.default.createElement('input', { type: 'search', placeholder: 'Search weather by city' })
 	                            ),
 	                            _react2.default.createElement(
 	                                'li',
@@ -28443,7 +28444,7 @@
 	    null,
 	    _react2.default.createElement(
 	      "h1",
-	      { className: "text-center" },
+	      { className: "text-center page-title" },
 	      "About"
 	    ),
 	    _react2.default.createElement(
@@ -28507,7 +28508,7 @@
 	    null,
 	    _react2.default.createElement(
 	      'h1',
-	      { className: 'text-center' },
+	      { className: 'text-center page-title' },
 	      'Examples'
 	    ),
 	    _react2.default.createElement(
@@ -28570,6 +28571,10 @@
 	
 	var _openWeatherMap2 = _interopRequireDefault(_openWeatherMap);
 	
+	var _ErrorModal = __webpack_require__(309);
+	
+	var _ErrorModal2 = _interopRequireDefault(_ErrorModal);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28587,28 +28592,29 @@
 	        var _this = _possibleConstructorReturn(this, (Weather.__proto__ || Object.getPrototypeOf(Weather)).call(this, props, context));
 	
 	        _this.state = {
-	            isLoading: false
+	            isLoading: false,
+	            errorMessage: undefined
 	        };
 	        _this.handleSearch = _this.handleSearch.bind(_this);
+	
 	        return _this;
 	    }
 	
 	    _createClass(Weather, [{
 	        key: 'handleSearch',
 	        value: function handleSearch(location) {
-	            var that = this;
+	            var _this2 = this;
 	
-	            this.setState({ isLoading: true });
+	            this.setState({ isLoading: true, errorMessage: undefined });
 	
 	            _openWeatherMap2.default.getTemp(location).then(function (temp) {
-	                that.setState({
+	                _this2.setState({
 	                    location: location,
 	                    temp: temp,
 	                    isLoading: false
 	                });
-	            }, function (errorMessage) {
-	                that.setState({ isLoading: false });
-	                alert(errorMessage);
+	            }, function (e) {
+	                _this2.setState({ isLoading: false, errorMessage: e.message });
 	            });
 	        }
 	    }, {
@@ -28617,7 +28623,8 @@
 	            var _state = this.state,
 	                isLoading = _state.isLoading,
 	                temp = _state.temp,
-	                location = _state.location;
+	                location = _state.location,
+	                errorMessage = _state.errorMessage;
 	
 	
 	            function renderMessage() {
@@ -28631,17 +28638,22 @@
 	                    return _react2.default.createElement(_WeatherMessage2.default, { temp: temp, location: location });
 	                }
 	            }
-	
+	            function renderError() {
+	                if (typeof errorMessage === 'string') {
+	                    return _react2.default.createElement(_ErrorModal2.default, { message: errorMessage });
+	                }
+	            }
 	            return _react2.default.createElement(
 	                'div',
 	                null,
 	                _react2.default.createElement(
 	                    'h1',
-	                    { className: 'text-center' },
+	                    { className: 'text-center page-title' },
 	                    'Get Weather'
 	                ),
 	                _react2.default.createElement(_WeatherForm2.default, { onSearch: this.handleSearch }),
-	                renderMessage()
+	                renderMessage(),
+	                renderError()
 	            );
 	        }
 	    }]);
@@ -28708,7 +28720,7 @@
 	                _react2.default.createElement(
 	                    'form',
 	                    { onSubmit: this.onFormSubmit },
-	                    _react2.default.createElement('input', { type: 'text', ref: 'location' }),
+	                    _react2.default.createElement('input', { type: 'search', placeholder: 'Search weather by city', ref: 'location' }),
 	                    _react2.default.createElement(
 	                        'button',
 	                        { className: 'button expanded hollow' },
@@ -30273,13 +30285,108 @@
 /* 309 */
 /***/ function(module, exports, __webpack_require__) {
 
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(8);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDom = __webpack_require__(165);
+	
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var ErrorModal = function (_React$Component) {
+	    _inherits(ErrorModal, _React$Component);
+	
+	    function ErrorModal() {
+	        _classCallCheck(this, ErrorModal);
+	
+	        return _possibleConstructorReturn(this, (ErrorModal.__proto__ || Object.getPrototypeOf(ErrorModal)).apply(this, arguments));
+	    }
+	
+	    _createClass(ErrorModal, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var modal = new Foundation.Reveal($('#error-modal'));
+	            modal.open();
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	
+	            //ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this).parentNode);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var _props = this.props,
+	                title = _props.title,
+	                message = _props.message;
+	
+	            return _react2.default.createElement(
+	                'div',
+	                { id: 'error-modal', className: 'reveal tiny text-center', 'data-reveal': '' },
+	                _react2.default.createElement(
+	                    'h4',
+	                    null,
+	                    title
+	                ),
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    message
+	                ),
+	                _react2.default.createElement(
+	                    'p',
+	                    null,
+	                    _react2.default.createElement(
+	                        'button',
+	                        { className: 'button hollow', 'data-close': '' },
+	                        'Okay'
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+	
+	    return ErrorModal;
+	}(_react2.default.Component);
+	
+	ErrorModal.defaultProps = {
+	    title: 'Error'
+	};
+	ErrorModal.propTypes = {
+	    title: _react.PropTypes.string,
+	    message: _react.PropTypes.string.isRequired
+	};
+	exports.default = ErrorModal;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
+
+/***/ },
+/* 310 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(310);
+	var content = __webpack_require__(311);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(312)(content, {});
+	var update = __webpack_require__(313)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -30296,10 +30403,10 @@
 	}
 
 /***/ },
-/* 310 */
+/* 311 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(311)();
+	exports = module.exports = __webpack_require__(312)();
 	// imports
 	
 	
@@ -30310,7 +30417,7 @@
 
 
 /***/ },
-/* 311 */
+/* 312 */
 /***/ function(module, exports) {
 
 	/*
@@ -30366,7 +30473,7 @@
 
 
 /***/ },
-/* 312 */
+/* 313 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -30615,6 +30722,46 @@
 		if(oldSrc)
 			URL.revokeObjectURL(oldSrc);
 	}
+
+
+/***/ },
+/* 314 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(315);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(313)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./style.css", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./style.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 315 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(312)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".page-title {\n    margin-top: 2.5rem;\n    margin-bottom: 2.5rem;\n}\n\ninput[type=search]{\n    box-shadow: none;\n}", "", {"version":3,"sources":["/./src/style/style.css"],"names":[],"mappings":"AAAA;IACI,mBAAmB;IACnB,sBAAsB;CACzB;;AAED;IACI,iBAAiB;CACpB","file":"style.css","sourcesContent":[".page-title {\n    margin-top: 2.5rem;\n    margin-bottom: 2.5rem;\n}\n\ninput[type=search]{\n    box-shadow: none;\n}"],"sourceRoot":"webpack://"}]);
+	
+	// exports
 
 
 /***/ }
