@@ -12,7 +12,8 @@ import routes from './routes'
 
 // Load foundation
 require('foundation-sites/dist/foundation.min.css')
-require('./style/style.css')
+require('./app.scss')
+
 $(document).foundation()
 
 

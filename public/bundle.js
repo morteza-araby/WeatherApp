@@ -128,6 +128,7 @@
 	//import App from './components/app'
 	__webpack_require__(310);
 	__webpack_require__(314);
+	
 	$(document).foundation();
 	
 	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxPromise2.default)(_redux.createStore);
@@ -30740,8 +30741,8 @@
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./style.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./style.css");
+			module.hot.accept("!!./../node_modules/css-loader/index.js?sourceMap!./../node_modules/sass-loader/index.js?sourceMap!./app.scss", function() {
+				var newContent = require("!!./../node_modules/css-loader/index.js?sourceMap!./../node_modules/sass-loader/index.js?sourceMap!./app.scss");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -30759,7 +30760,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".page-title {\n    margin-top: 2.5rem;\n    margin-bottom: 2.5rem;\n}\n\ninput[type=search]{\n    box-shadow: none;\n}", "", {"version":3,"sources":["/./src/style/style.css"],"names":[],"mappings":"AAAA;IACI,mBAAmB;IACnB,sBAAsB;CACzB;;AAED;IACI,iBAAiB;CACpB","file":"style.css","sourcesContent":[".page-title {\n    margin-top: 2.5rem;\n    margin-bottom: 2.5rem;\n}\n\ninput[type=search]{\n    box-shadow: none;\n}"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, ".page-title {\n  color: #555;\n  margin-top: 2.5rem;\n  margin-bottom: 2.5rem; }\n\ninput[type=search] {\n  box-shadow: none; }\n", "", {"version":3,"sources":["/./src/src/app.scss"],"names":[],"mappings":"AAGA;EACI,YAHc;EAId,mBALgB;EAMhB,sBANgB,EAOnB;;AAED;EACI,iBAAiB,EACpB","file":"app.scss","sourcesContent":["$space-large: 2.5rem;\r\n$title-color: #555;\r\n\r\n.page-title {\r\n    color: $title-color;\r\n    margin-top: $space-large;\r\n    margin-bottom: $space-large;\r\n}\r\n\r\ninput[type=search]{\r\n    box-shadow: none;\r\n}"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
