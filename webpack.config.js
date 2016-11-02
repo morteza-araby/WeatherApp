@@ -1,6 +1,7 @@
 var webpack = require('webpack')
 const path = require('path');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const PATHS = {
     app: path.join(__dirname, 'src'),
@@ -57,13 +58,19 @@ module.exports = {
                 to: ""
             },
             {
-                from: PATHS.app +"/style",
+                from: PATHS.app + "/style",
                 to: "style/"
             }
         ]),
         new webpack.ProvidePlugin({
             '$': 'jquery',
             'jQuery': 'jquery'
+        }),
+        new CleanWebpackPlugin([PATHS.build], {
+            root: __dirname,
+            verbose: true,
+            dry: false,
+            exclude: ['shared.js']
         })
     ],
     resolve: {
