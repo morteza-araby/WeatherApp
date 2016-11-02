@@ -1,14 +1,24 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import { Link, IndexLink } from 'react-router'
 
 class Nav extends React.Component {
 
     constructor(props, context){
         super(props, context)
+
+        this.onSearch = this.onSearch.bind(this)
     }
     onSearch(e) {
         e.preventDefault()
-        console.log("On Serach");
+        
+        var location = this.refs.search.value
+        var encodedLocation = encodeURIComponent(location)
+        if(location.length > 0){
+            this.refs.search.value = ''
+            this.context.router.push('/?location=' + encodedLocation)
+           // window.location.hash= '#/?location=' + encodedLocation //This will work if we have hashHistory in react-router.
+        }
+        console.log(location)
     }
     render() {
         return (
@@ -31,7 +41,7 @@ class Nav extends React.Component {
                     <form onSubmit={this.onSearch}>
                         <ul className="menu">
                             <li>
-                                <input type="search" placeholder="Search weather by city" />
+                                <input ref="search" type="search" placeholder="Search weather by city" />
                             </li>
                             <li>
                                 <input type="submit" className="button" value="Get Weather"/>
@@ -44,4 +54,8 @@ class Nav extends React.Component {
     }
 }
 
+//Pull in the React Router context so router is available on this.context.router.
+Nav.contextTypes = {
+    router: PropTypes.object.isRequired
+}
 export default Nav

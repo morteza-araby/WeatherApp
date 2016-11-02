@@ -28337,14 +28337,25 @@
 	    function Nav(props, context) {
 	        _classCallCheck(this, Nav);
 	
-	        return _possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).call(this, props, context));
+	        var _this = _possibleConstructorReturn(this, (Nav.__proto__ || Object.getPrototypeOf(Nav)).call(this, props, context));
+	
+	        _this.onSearch = _this.onSearch.bind(_this);
+	        return _this;
 	    }
 	
 	    _createClass(Nav, [{
 	        key: 'onSearch',
 	        value: function onSearch(e) {
 	            e.preventDefault();
-	            console.log("On Serach");
+	
+	            var location = this.refs.search.value;
+	            var encodedLocation = encodeURIComponent(location);
+	            if (location.length > 0) {
+	                this.refs.search.value = '';
+	                this.context.router.push('/?location=' + encodedLocation);
+	                // window.location.hash= '#/?location=' + encodedLocation //This will work if we have hashHistory in react-router.
+	            }
+	            console.log(location);
 	        }
 	    }, {
 	        key: 'render',
@@ -28404,7 +28415,7 @@
 	                            _react2.default.createElement(
 	                                'li',
 	                                null,
-	                                _react2.default.createElement('input', { type: 'search', placeholder: 'Search weather by city' })
+	                                _react2.default.createElement('input', { ref: 'search', type: 'search', placeholder: 'Search weather by city' })
 	                            ),
 	                            _react2.default.createElement(
 	                                'li',
@@ -28421,6 +28432,12 @@
 	    return Nav;
 	}(_react2.default.Component);
 	
+	//Pull in the React Router context so router is available on this.context.router.
+	
+	
+	Nav.contextTypes = {
+	    router: _react.PropTypes.object.isRequired
+	};
 	exports.default = Nav;
 
 /***/ },
@@ -28597,16 +28614,43 @@
 	            errorMessage: undefined
 	        };
 	        _this.handleSearch = _this.handleSearch.bind(_this);
-	
+	        _this.searchLocation = _this.searchLocation.bind(_this);
 	        return _this;
 	    }
 	
 	    _createClass(Weather, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            var location = this.props.location.query.location;
+	            this.searchLocation(location);
+	        }
+	    }, {
+	        key: 'componentWillReceiveProps',
+	        value: function componentWillReceiveProps(newProps) {
+	            var location = newProps.location.query.location;
+	            this.searchLocation(location);
+	        }
+	    }, {
+	        key: 'searchLocation',
+	        value: function searchLocation(location) {
+	            if (location && location.length > 0) {
+	                this.handleSearch(location);
+	                //window.location.hash = '#/' //This will work if we have hashHistory in react-router.
+	                this.context.router.push('/');
+	                //window.location.href = window.location.href.split("?")[0]
+	            }
+	        }
+	    }, {
 	        key: 'handleSearch',
 	        value: function handleSearch(location) {
 	            var _this2 = this;
 	
-	            this.setState({ isLoading: true, errorMessage: undefined });
+	            this.setState({
+	                isLoading: true,
+	                errorMessage: undefined,
+	                location: undefined,
+	                temp: undefined
+	            });
 	
 	            _openWeatherMap2.default.getTemp(location).then(function (temp) {
 	                _this2.setState({
@@ -28661,6 +28705,13 @@
 	
 	    return Weather;
 	}(_react2.default.Component);
+	
+	//Pull in the React Router context so router is available on this.context.router.
+	
+	
+	Weather.contextTypes = {
+	    router: _react.PropTypes.object.isRequired
+	};
 	
 	exports.default = Weather;
 

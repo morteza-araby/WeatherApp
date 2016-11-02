@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import WeatherForm from './WeatherForm'
 import WeatherMessage from './WeatherMessage'
 import openWeatherMap from '../api/openWeatherMap'
@@ -11,12 +11,38 @@ class Weather extends React.Component {
             isLoading: false,
             errorMessage: undefined
         }
-        this.handleSearch = this.handleSearch.bind(this)     
-           
+        this.handleSearch = this.handleSearch.bind(this)
+        this.searchLocation = this.searchLocation.bind(this)
+    }
+
+    componentDidMount() {
+        var location = this.props.location.query.location
+        this.searchLocation(location)
+    }
+
+    componentWillReceiveProps(newProps) {
+        var location = newProps.location.query.location
+        this.searchLocation(location)
+
+    }
+
+    searchLocation(location) {
+        if (location && location.length > 0) {
+            this.handleSearch(location)
+            //window.location.hash = '#/' //This will work if we have hashHistory in react-router.
+            this.context.router.push('/')
+            //window.location.href = window.location.href.split("?")[0]
+        }
     }
 
     handleSearch(location) {
-        this.setState({ isLoading: true , errorMessage: undefined})
+        this.setState(
+            {
+                isLoading: true,
+                errorMessage: undefined,
+                location: undefined,
+                temp: undefined
+            })
 
         openWeatherMap.getTemp(location).then((temp) => {
             this.setState({
@@ -56,6 +82,11 @@ class Weather extends React.Component {
             </div>
         )
     }
+}
+
+//Pull in the React Router context so router is available on this.context.router.
+Weather.contextTypes = {
+    router: PropTypes.object.isRequired
 }
 
 export default Weather

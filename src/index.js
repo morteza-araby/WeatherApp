@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import ReduxPromise from "redux-promise"
-import  {Router, browserHistory } from "react-router"
+import  {Router, browserHistory, hashHistory } from "react-router"
 //import App from './components/app'
 import reducers from './reducers'
 import routes from './routes'
