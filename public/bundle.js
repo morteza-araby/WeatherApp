@@ -126,8 +126,8 @@
 	// Load foundation
 	
 	//import App from './components/app'
-	__webpack_require__(310);
-	__webpack_require__(314);
+	__webpack_require__(311);
+	__webpack_require__(315);
 	
 	$(document).foundation();
 	
@@ -28615,6 +28615,7 @@
 	        };
 	        _this.handleSearch = _this.handleSearch.bind(_this);
 	        _this.searchLocation = _this.searchLocation.bind(_this);
+	        _this.convert = _this.convert.bind(_this);
 	        return _this;
 	    }
 	
@@ -28640,6 +28641,22 @@
 	                //window.location.href = window.location.href.split("?")[0]
 	            }
 	        }
+	        //Return from Fahrenhet to Celcius and reverse
+	
+	    }, {
+	        key: 'convert',
+	        value: function convert(temp, degree) {
+	            var x;
+	            if (degree == "C" && temp) {
+	                x = (temp - 32) * (5 / 9);
+	                return Math.round(x);
+	            } else if (degree == "F" && temp) {
+	                x = temp * (9 / 5) + 32;
+	                return Math.round(x);
+	            } else {
+	                return null;
+	            }
+	        }
 	    }, {
 	        key: 'handleSearch',
 	        value: function handleSearch(location) {
@@ -28653,9 +28670,12 @@
 	            });
 	
 	            _openWeatherMap2.default.getTemp(location).then(function (temp) {
+	                console.log(temp);
+	                temp = _this2.convert(temp, 'C');
+	
 	                _this2.setState({
 	                    location: location,
-	                    temp: temp,
+	                    temp: temp + '°C',
 	                    isLoading: false
 	                });
 	            }, function (e) {
@@ -28811,7 +28831,7 @@
 	  return _react2.default.createElement(
 	    "h3",
 	    { className: "text-center" },
-	    "It's it ",
+	    "It's ",
 	    temp,
 	    " in ",
 	    location,
@@ -30353,6 +30373,10 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
+	var _server = __webpack_require__(310);
+	
+	var _server2 = _interopRequireDefault(_server);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30373,23 +30397,11 @@
 	    _createClass(ErrorModal, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
-	            var modal = new Foundation.Reveal($('#error-modal'));
-	            modal.open();
-	        }
-	    }, {
-	        key: 'componentWillUnmount',
-	        value: function componentWillUnmount() {
-	
-	            //ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this).parentNode);
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
 	            var _props = this.props,
 	                title = _props.title,
 	                message = _props.message;
 	
-	            return _react2.default.createElement(
+	            var modalMarkup = _react2.default.createElement(
 	                'div',
 	                { id: 'error-modal', className: 'reveal tiny text-center', 'data-reveal': '' },
 	                _react2.default.createElement(
@@ -30412,6 +30424,23 @@
 	                    )
 	                )
 	            );
+	            var $modal = $(_server2.default.renderToString(modalMarkup));
+	            $(_reactDom2.default.findDOMNode(this)).html($modal);
+	
+	            var modal = new Foundation.Reveal($('#error-modal'));
+	            modal.open();
+	        }
+	    }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	
+	            //ReactDOM.unmountComponentAtNode(ReactDOM.findDOMNode(this).parentNode);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	
+	            return _react2.default.createElement('div', null);
 	        }
 	    }]);
 	
@@ -30432,13 +30461,22 @@
 /* 310 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	module.exports = __webpack_require__(155);
+
+
+/***/ },
+/* 311 */
+/***/ function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(311);
+	var content = __webpack_require__(312);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(313)(content, {});
+	var update = __webpack_require__(314)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -30455,10 +30493,10 @@
 	}
 
 /***/ },
-/* 311 */
+/* 312 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(312)();
+	exports = module.exports = __webpack_require__(313)();
 	// imports
 	
 	
@@ -30469,7 +30507,7 @@
 
 
 /***/ },
-/* 312 */
+/* 313 */
 /***/ function(module, exports) {
 
 	/*
@@ -30525,7 +30563,7 @@
 
 
 /***/ },
-/* 313 */
+/* 314 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -30777,16 +30815,16 @@
 
 
 /***/ },
-/* 314 */
+/* 315 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(315);
+	var content = __webpack_require__(316);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(313)(content, {});
+	var update = __webpack_require__(314)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -30803,10 +30841,10 @@
 	}
 
 /***/ },
-/* 315 */
+/* 316 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(312)();
+	exports = module.exports = __webpack_require__(313)();
 	// imports
 	
 	

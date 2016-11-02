@@ -13,6 +13,7 @@ class Weather extends React.Component {
         }
         this.handleSearch = this.handleSearch.bind(this)
         this.searchLocation = this.searchLocation.bind(this)
+        this.convert = this.convert.bind(this)
     }
 
     componentDidMount() {
@@ -34,6 +35,19 @@ class Weather extends React.Component {
             //window.location.href = window.location.href.split("?")[0]
         }
     }
+    //Return from Fahrenhet to Celcius and reverse
+    convert(temp, degree) {
+        var x
+        if (degree == "C" && temp) {
+            x = (temp - 32) * (5 / 9)
+            return Math.round(x)
+        } else if (degree == "F" && temp) {
+            x = (temp * (9 / 5)) + 32
+            return Math.round(x)
+        } else {
+            return null
+        }
+    }
 
     handleSearch(location) {
         this.setState(
@@ -45,9 +59,12 @@ class Weather extends React.Component {
             })
 
         openWeatherMap.getTemp(location).then((temp) => {
+            console.log(temp)
+            temp = this.convert(temp, 'C')
+  
             this.setState({
                 location: location,
-                temp: temp,
+                temp: temp+'°C',
                 isLoading: false
             })
         }, (e) => {
