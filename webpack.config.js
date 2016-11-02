@@ -1,49 +1,78 @@
-var webpack = require('webpack');
+var webpack = require('webpack')
+const path = require('path');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
+
+const PATHS = {
+    app: path.join(__dirname, 'src'),
+    build: path.join(__dirname, 'public')
+};
 
 module.exports = {
-  entry: [
-    'script!jquery/dist/jquery.min.js',
-    'script!foundation-sites/dist/foundation.min.js',
-    './app/app.jsx'
-  ],
-  externals: {
-    jquery: 'jQuery'
-  },
-  plugins: [
-    new webpack.ProvidePlugin({
-      '$': 'jquery',
-      'jQuery': 'jquery'
-    })
-  ],
-  output: {
-    path: __dirname,
-    filename: './public/bundle.js'
-  },
-  resolve: {
-    root: __dirname,
-    alias: {
-      Main: 'app/components/Main.jsx',
-      Nav: 'app/components/Nav.jsx',
-      Weather: 'app/components/Weather.jsx',
-      WeatherForm: 'app/components/WeatherForm.jsx',
-      WeatherMessage: 'app/components/WeatherMessage.jsx',
-      About: 'app/components/About.jsx',
-      Examples: 'app/components/Examples.jsx',
-      openWeatherMap: 'app/api/openWeatherMap.jsx'
+
+    /* entry: {
+         app: PATHS.app
+     },*/
+    entry: [
+        'script!jquery/dist/jquery.min.js',
+        'script!foundation-sites/dist/foundation.min.js',
+        './src/index.js'
+    ],
+    externals: {
+        jquery: 'jQuery'
     },
-    extensions: ['', '.js', '.jsx']
-  },
-  module: {
-    loaders: [
-      {
-        loader: 'babel-loader',
-        query: {
-          presets: ['react', 'es2015', 'stage-0']
-        },
-        test: /\.jsx?$/,
-        exclude: /(node_modules|bower_components)/
-      }
-    ]
-  },
-  devtool: 'cheap-module-eval-source-map'
+    output: {
+        path: PATHS.build,
+        filename: 'bundle.js'
+    },
+    module: {
+        loaders: [
+            {
+                test: /\.css$/,
+                loader: 'style!' + 'css?sourceMap'
+            },
+            {
+                test: /\.scss$/,
+                loader: 'style!' + 'css?sourceMap' + '!sass?sourceMap'
+            },
+            {
+                test: /\.(json)/,
+                exclude: /node_modules/,
+                loader: 'json-loader'
+            },
+            {
+                test: /\.(svg|ttf|woff|woff2|eot)(\?v=\d+\.\d+\.\d+)?$/,
+                loader: 'url-loader'
+            },
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                loader: 'babel'
+            }
+        ]
+    },
+    plugins: [
+        new CopyWebpackPlugin([
+            {
+                from: PATHS.app + "/index.html",
+                to: ""
+            },
+            {
+                from: "/style",
+                to: "style/"
+            }
+        ]),
+        new webpack.ProvidePlugin({
+            '$': 'jquery',
+            'jQuery': 'jquery'
+        })
+    ],
+    resolve: {
+        extensions: ['', '.js', '.jsx']
+    },
+    /*devtool: 'cheap-module-eval-source-map',*/
+    devtool: 'source-map',
+    devServer: {
+        historyApiFallback: true,
+        contentBase: PATHS.build
+    }
 };
