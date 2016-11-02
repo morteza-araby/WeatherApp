@@ -6,10 +6,13 @@
   "repository": "",
   "scripts": {
     "build": "webpack",
-    "start": "webpack && node server.js",
+    "start": "node server.js",
     "serve": "webpack && node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --progress --colors --host 0.0.0.0 --port 4080",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "test:watch": "npm run test -- --watch"
+  },
+  "engines": {
+    "node": "5.10.1"
   },
   "author": "",
   "license": "MIT",
