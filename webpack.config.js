@@ -57,7 +57,7 @@ module.exports = {
                 to: ""
             },
             {
-                from: "/style",
+                from: PATHS.app +"/style",
                 to: "style/"
             }
         ]),
